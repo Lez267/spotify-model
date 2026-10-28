@@ -37,6 +37,17 @@ class OutputData(BaseModel):
     popularidad: float = 0.0
     score: float = 0.0
 
+@app.get('/')
+def root():
+    return {
+        'message': 'Spotify Popularity Prediction Model API is running',
+        'status': 'online',
+        'endpoints': {
+            'docs': '/docs',
+            'score': 'POST /score'
+        }
+    }
+
 @app.post('/score', response_model=OutputData)
 def score(data: InputData):
     model_input = np.array([v for k, v in data.dict().items()]).reshape(1, -1)
